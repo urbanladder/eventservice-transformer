@@ -12,7 +12,10 @@ ENV transformer_build_version=$version
 COPY package*.json ./
 RUN npm install
 
-RUN chown -R node:node . .
+USER root
+COPY . .
+RUN chown -R node:node . 
 
+USER node
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD [ "npm", "start" ]
