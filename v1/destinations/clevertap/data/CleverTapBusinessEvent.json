@@ -1,0 +1,26 @@
+[
+  {
+    "destKey": "business_event",
+    "sourceKeys": "business_event",
+    "required": true
+  },
+  {
+    "destKey": "properties",
+    "sourceKeys": "properties",
+    "required": true
+  },
+  {
+    "destKey": "name",
+    "sourceKeys": "bulletin_name"
+  },
+  {
+    "destKey": "c-by",
+    "sourceKeys": "bulletin_created_by",
+    "required": true
+  },
+  {
+    "destKey": "when",
+    "sourceKeys": "when",
+    "required": true
+  }
+]
