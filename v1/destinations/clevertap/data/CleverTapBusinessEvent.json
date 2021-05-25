@@ -15,7 +15,7 @@
   },
   {
     "destKey": "c-by",
-    "sourceKeys": "bulletin_created_by",
+    "sourceKeys": "template_created_by",
     "required": true
   },
   {
