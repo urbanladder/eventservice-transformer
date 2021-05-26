@@ -11,7 +11,7 @@
   },
   {
     "destKey": "name",
-    "sourceKeys": "bulletin_name"
+    "sourceKeys": "template_name"
   },
   {
     "destKey": "c-by",
