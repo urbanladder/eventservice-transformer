@@ -35,4 +35,4 @@ COPY . ./
 ENV NODE_ENV=production
 RUN chmod ug+x /app/startup.sh && chown root:root /app/startup.sh
 
-ENTRYPOINT ["/sbin/tini", "--", "/startup.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/app/startup.sh"]
