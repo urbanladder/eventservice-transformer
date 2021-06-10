@@ -1,4 +1,4 @@
-FROM 540798973460.dkr.ecr.us-east-1.amazonaws.com/nodebase_10.16:latest
+FROM 540798973460.dkr.ecr.us-east-1.amazonaws.com/nodebase_10.16_backend:latest
 
 ENV LC_ALL=C
 
