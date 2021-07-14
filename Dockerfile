@@ -1,15 +1,8 @@
 FROM 540798973460.dkr.ecr.us-east-1.amazonaws.com/nodebase_10.16_backend:latest
 
 ENV LC_ALL=C
-
 ARG deploy_env=staging
 
-ENV APP_ENV=staging
-ENV appName=eventservice-transformer
-ENV DEPLOY_ENV=staging
-ENV etcdHost=stg-docker-secrets.urbanladder.com 
-ENV JOB_NAME=pm2
-ENV robotsurl=
 # Create app directory
 WORKDIR /app
 
