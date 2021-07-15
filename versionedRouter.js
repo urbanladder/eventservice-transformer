@@ -7,7 +7,7 @@ const logger = require("./logger");
 const stats = require("./util/stats");
 require("dotenv").config();
 
-const versions = ["v0"];
+const versions = ["v1"];
 const API_VERSION = "1";
 
 const transformerMode = process.env.TRANSFORMER_MODE;
@@ -105,7 +105,7 @@ async function handleDest(ctx, version, destination) {
 
 async function routerHandleDest(ctx) {
   const { destType, input } = ctx.request.body;
-  const routerDestHandler = getDestHandler("v0", destType);
+  const routerDestHandler = getDestHandler("v1", destType);
   if (!routerDestHandler || !routerDestHandler.processRouterDest) {
     ctx.status = 404;
     ctx.body = `${destType} doesn't support router transform`;
@@ -359,7 +359,7 @@ router.get("/health", ctx => {
 
 router.post("/batch", ctx => {
   const { destType, input } = ctx.request.body;
-  const destHandler = getDestHandler("v0", destType);
+  const destHandler = getDestHandler("v1", destType);
   if (!destHandler || !destHandler.batch) {
     ctx.status = 404;
     ctx.body = `${destType} doesn't support batching`;
