@@ -1,18 +1,31 @@
-FROM 540798973460.dkr.ecr.us-east-1.amazonaws.com/nodebase_10.16:latest
+FROM 540798973460.dkr.ecr.us-east-1.amazonaws.com/nodebase_10.16_backend:latest
 
-RUN apk add --no-cache tini python make g++
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+ENV LC_ALL=C
+ARG deploy_env=staging
 
 # Create app directory
-WORKDIR /home/node/app
-USER node
+WORKDIR /app
 
+# Create required directories for nginx and beaver
+RUN mkdir -p shared/pids public/system shared/sockets nginx/cache nginx/logs beaver
+RUN touch /etc/logrotate.d/app beaver/beaver.conf
+
+RUN mkdir -p /app/node_modules
 ARG version
 ENV transformer_build_version=$version
 COPY package*.json ./
-RUN npm install
 
-COPY --chown=node:node . .
+# Install dependencies and create a build
+RUN apk --no-cache update && \
+    apk --no-cache add tini python make g++ git make curl jq && \
+    rm -rf /var/cache/apk/* && \
+    echo "DEPLOY_ENV=${deploy_env}" > /app/.env && \
+    npm install && \
+    apk del  --purge git g++ make
 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD [ "npm", "start" ]
+COPY . ./
+
+ENV NODE_ENV=production
+RUN chmod ug+x /app/startup.sh && chown root:root /app/startup.sh
+
+ENTRYPOINT ["/sbin/tini", "--", "/app/startup.sh"]
