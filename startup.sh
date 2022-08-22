@@ -19,11 +19,6 @@ sed -i "s%ROBOTS_URL%$robotsurl%g" /etc/nginx/nginx.conf
 #ln -nfs /etc/nginx/sites-available/nginx_cache /etc/nginx/sites-enabled/nginx_cache
 
 
-if [ -f "beaver/beaver.conf" ] && [ $(grep -c "$appName-Section" beaver/beaver.conf) -eq 0 ]
- then
-  cat /tmp/beaver.conf >> beaver/beaver.conf
- fi
-
 # Add secrets from etcd
 # declare -a etcdConfigKeys=($(curl -XGET "$etcdHost:2379/v2/keys/$appName/?recursive=true" | jq -r '.node.nodes[].key'))
 # for config in "${etcdConfigKeys[@]}"
