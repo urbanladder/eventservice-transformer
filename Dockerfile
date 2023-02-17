@@ -1,31 +1,40 @@
-FROM 540798973460.dkr.ecr.us-east-1.amazonaws.com/nodebase_10.16_backend:latest
+# syntax=docker/dockerfile:1.4
+FROM node:14.21.1-alpine3.15
 
-ENV LC_ALL=C
-ARG deploy_env=staging
+RUN apk update
+RUN apk upgrade
+
+# installing specific python version based on your previous configuration
+RUN apk add --no-cache tini python2
+
+# installing specific make version based on your previous configuration
+RUN apk add make=4.2.1-r2 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.11/main
+
+# installing specific gcc version based on your previous configuration
+RUN apk add g++=9.3.0-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.11/main
+
+# RUN apk add --no-cache tini python make g++
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 # Create app directory
-WORKDIR /app
+WORKDIR /home/node/app
+USER node
 
-# Create required directories for nginx and beaver
-RUN mkdir -p shared/pids public/system shared/sockets nginx/cache nginx/logs beaver
-RUN touch /etc/logrotate.d/app beaver/beaver.conf
-
-RUN mkdir -p /app/node_modules
 ARG version
+ARG GIT_COMMIT_SHA
 ENV transformer_build_version=$version
+ENV git_commit_sha=$GIT_COMMIT_SHA
 COPY package*.json ./
+RUN npm install
 
-# Install dependencies and create a build
-RUN apk --no-cache update && \
-    apk --no-cache add tini python make g++ git make curl jq && \
-    rm -rf /var/cache/apk/* && \
-    echo "DEPLOY_ENV=${deploy_env}" > /app/.env && \
-    npm install && \
-    apk del  --purge git g++ make
+COPY --chown=node:node . .
 
-COPY . ./
+ENTRYPOINT ["/sbin/tini", "--"]
 
-ENV NODE_ENV=production
-RUN chmod ug+x /app/startup.sh && chown root:root /app/startup.sh
+HEALTHCHECK --interval=1s --timeout=30s --retries=30 \
+    CMD  wget --no-verbose --tries=5 --spider http://localhost:9090/health || exit 1
 
-ENTRYPOINT ["/sbin/tini", "--", "/app/startup.sh"]
+CMD [ "npm", "start" ]
+
+
+EXPOSE 9090/tcp
