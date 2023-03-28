@@ -1,8 +1,9 @@
 #!/bin/bash
 
-chown -R ubuntu:ubuntu /home/ubuntu/rudder-transformer
-cd /home/ubuntu/rudder-transformer
-npm install --unsafe-perm
-systemctl daemon-reload
-systemctl enable dest-transformer.service
-systemctl restart dest-transformer.service
+cp /home/ubuntu/.env /home/ubuntu/rudder-server/.env
+chown -R ubuntu:ubuntu /home/ubuntu/rudder-server
+systemctl enable rudder.service
+timestamp=$(date +%s)
+mv /tmp/recovery_data.json /tmp/recovery_data_"$timestamp".json
+mv /tmp/error_store.json /tmp/error_store_"$timestamp".json
+systemctl restart rudder.service
