@@ -1,58 +1,54 @@
 # Contributing to RudderStack
 
-Thanks for taking the time and for your help in improving this project!
+Thanks for taking the time and for your help improving this project!
 
-## Table of contents
+## Getting Help
 
-- [RudderStack Contributor Agreement](#rudderstack-contributor-agreement)
-- [How You Can Contribute to RudderStack](#how-you-can-contribute-to-rudderstack)
-- [Submitting a Pull Request](#submitting-a-pull-request)
-- [Committing](#committing)
-- [Installing and Setting Up RudderStack](#installing-and-setting-up-rudderstack)
-- [Getting Help](#getting-help)
+If you have a question about rudder or have encountered problems using it,
+start by asking a question on [Slack][slack].
 
-## RudderStack Contributor Agreement
+## Rudder Labs Contributor Agreement
 
-To contribute to this project, we need you to sign the [**Contributor License Agreement (“CLA”)**][CLA] for the first commit you make. By agreeing to the [**CLA**][CLA]
+To contribute to this project, we need you to sign to [Contributor License Agreement (“CLA”)][cla] for the first commit you make. By agreeing to the [CLA][cla]
 we can add you to list of approved contributors and review the changes proposed by you.
 
-## How you can contribute to RudderStack
+## Installing and Setting Up rudder-transformer
 
-You can contribute to any open-source RudderStack project. View our [**GitHub page**](https://github.com/rudderlabs) to see all the different projects. If you encounter a bug or have an improvement suggestion, you can [**submit an issue**](https://github.com/rudderlabs/rudder-server/issues/new) describing your proposed change.
+See the project's [README](README.md) for further information about working in this repository.
 
-One way you can contribute to RudderStack is to create an integration. An integration is a connection between RudderStack and a downstream destination where you would like to send your event data. There are several reasons why you may want to build an integration:
+## Submitting a Pull Request
 
-- If you would like to send data to a certain destination, but RudderStack doesn't support it yet.
-- If you have developed a tool that you would like RudderStack to integrate with, to expand your user base.
-- If you want to add features to an already existing integration, and many more!
+### Do you have an improvement?
 
-For more information on the different ways in which you can contribute to RudderStack, you can chat with us on our [**Slack**](https://rudderstack.com/join-rudderstack-slack-community/) channel.
+1. Submit an [issue][issue] describing your proposed change.
+2. We will try to respond to your issue promptly.
+3. Fork this repo, develop and test your code changes. See the project's [README](README.md) for further information about working in this repository.
+4. Submit a pull request against this repo's `main` branch.
+   - Include instructions on how to test your changes.
+5. Your branch may be merged once all configured checks pass, including:
+   - A review from appropriate maintainers
 
-> **Note:**  For creating an integration, the primary GitHub repository you will need to work with will be [**`rudder-transformer`**](https://github.com/rudderlabs/rudder-transformer).
+### Are you developing a new Integration with us?
 
-## Submitting a pull request
-
-The type of change you make will dictate what repositories you will need to make pull requests for. You can reach out to us on our [**Slack**](https://rudderstack.com/join-rudderstack-slack-community/) channel if you have any questions.
-
-For instance, to create a PR for contributing to a new third-party integration, follow these instructions on [**submitting an integration PR**](https://docs.rudderstack.com/user-guides/how-to-guides/how-to-submit-an-integration-pull-request).
+1. Fork this repo, develop and test your code changes. See the project's [README](README.md) for further information about working in this repository.
+2. Submit a pull request against this repo's `main` branch.
+   - Include instructions on how to test your changes.
+3. Your branch may be merged once all configured checks pass, including:
+   - A review from appropriate maintainers
+4. Along with the PR in transformer raise a PR against [config-generator][config-generator] with the configurations.
 
 ## Committing
 
-We prefer squash or rebase commits so that all changes from a branch are committed to master as a single commit. All pull requests are squashed when merged, but rebasing prior to merge gives you better control over the commit message.
+We prefer squash or rebase commits so that all changes from a branch are
+committed to main branch as a single commit. All pull requests are squashed when
+merged, but rebasing prior to merge gives you better control over the commit
+message.
 
-## Installing and setting up RudderStack
+We look forward to your feedback on improving this project.
 
-To contribute to this project, you may need to install RudderStack on your machine. You can do so by following our [**docs**](https://docs.rudderstack.com/get-started/installing-and-setting-up-rudderstack) and set up RudderStack in no time.
+<!----variable's---->
 
-## Getting help
-
-For any questions, concerns, or queries, you can start by asking a question on our [**Slack**](https://rudderstack.com/join-rudderstack-slack-community/) channel.
-<br><br>
-
-### We look forward to your feedback on improving this project!
-
-
-<!----variables---->
-
-[issue]: https://github.com/rudderlabs/rudder-server/issues/new
-[CLA]: https://rudderlabs.wufoo.com/forms/rudderlabs-contributor-license-agreement
+[slack]: https://resources.rudderstack.com/join-rudderstack-slack
+[issue]: https://github.com/rudderlabs/rudder-transformer/issues/new
+[cla]: https://rudderlabs.wufoo.com/forms/rudderlabs-contributor-license-agreement
+[config-generator]: https://github.com/rudderlabs/config-generator
