@@ -12,7 +12,7 @@ const { logProcessInfo } = require('./util/utils');
 
 const clusterEnabled = process.env.CLUSTER_ENABLED !== 'false';
 
-const port = parseInt(process.env.PORT || '9090', 10);
+const port = parseInt(process.env.PORT || '3000', 10);
 const app = new Koa();
 addPrometheusMiddleware(app);
 
