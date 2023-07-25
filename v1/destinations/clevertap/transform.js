@@ -47,11 +47,7 @@ const responseWrapper = (payload, destination) => {
   // If the acount belongs to specific regional server,
   // we need to modify the url endpoint based on dest config.
   // Source: https://developer.clevertap.com/docs/idc
-  if (message.business_event && message.channel === "server") {
-    response.endpoint = "https://eu1.api.clevertap.com/1/targets/trigger.json";
-  } else {
-    response.endpoint = getEndpoint(destination);
-  }
+  response.endpoint = getEndpoint(destination);
   response.method = defaultPostRequestConfig.requestMethod;
   response.headers = {
     "X-CleverTap-Account-Id": destination.Config.accountId,
@@ -206,11 +202,6 @@ const responseBuilderSimple = (message, category, destination) => {
     } else {
       payload = mapIdentifyPayload(message, profile);
     }
-  } else if (message.business_event && message.channel === "server") {
-    //Handling business events, if message contains field business_event and channel is server.
-    //Source: https://developer.clevertap.com/docs/bulletins-api
-    payload = constructPayload(message, MAPPING_CONFIG[CONFIG_CATEGORIES.BUSINESS_EVENT.name])
-    removeUndefinedAndNullValues(payload)
   } else {
     // If trackAnonymous option is disabled from dashboard then we will check for presence of userId only
     // if userId is not present we will throw error. If it is enabled we will process the event with anonId.
