@@ -13,14 +13,14 @@ const {
   getMetadata,
   generateErrorObject,
   CustomError
-} = require("./v0/util");
+} = require("./v1/util");
 const { processDynamicConfig } = require("./util/dynamicConfig");
 const { DestHandlerMap } = require("./constants/destinationCanonicalNames");
 const { userTransformHandler } = require("./routerUtils");
-const { TRANSFORMER_METRIC } = require("./v0/util/constant");
+const { TRANSFORMER_METRIC } = require("./v1/util/constant");
 const networkHandlerFactory = require("./adapters/networkHandlerFactory");
 const profilingRouter = require("./routes/profiling");
-const { isCdkDestination } = require("./v0/util");
+const { isCdkDestination } = require("./v1/util");
 
 require("dotenv").config();
 const eventValidator = require("./util/eventValidation");
@@ -31,7 +31,7 @@ const CDK_DEST_PATH = "cdk";
 const basePath = path.resolve(__dirname, `./${CDK_DEST_PATH}`);
 ConfigFactory.init({ basePath, loggingMode: "production" });
 
-const versions = ["v0"];
+const versions = ["v1"];
 const API_VERSION = "2";
 
 const transformerMode = process.env.TRANSFORMER_MODE;
@@ -260,7 +260,7 @@ async function handleValidation(ctx) {
 
 async function routerHandleDest(ctx) {
   const { destType, input } = ctx.request.body;
-  const routerDestHandler = getDestHandler("v0", destType);
+  const routerDestHandler = getDestHandler("v1", destType);
   if (!routerDestHandler || !routerDestHandler.processRouterDest) {
     ctx.status = 404;
     ctx.body = `${destType} doesn't support router transform`;
@@ -680,7 +680,7 @@ router.get("/features", ctx => {
 
 const batchHandler = ctx => {
   const { destType, input } = ctx.request.body;
-  const destHandler = getDestHandler("v0", destType);
+  const destHandler = getDestHandler("v1", destType);
   if (!destHandler || !destHandler.batch) {
     ctx.status = 404;
     ctx.body = `${destType} doesn't support batching`;
@@ -717,7 +717,7 @@ router.post("/batch", ctx => {
 const fileUpload = async ctx => {
   const { destType } = ctx.request.body;
   const destFileUploadHandler = getDestFileUploadHandler(
-    "v0",
+    "v1",
     destType.toLowerCase()
   );
 
@@ -743,7 +743,7 @@ const fileUpload = async ctx => {
 const pollStatus = async ctx => {
   const { destType } = ctx.request.body;
   const destFileUploadHandler = getPollStatusHandler(
-    "v0",
+    "v1",
     destType.toLowerCase()
   );
   let response;
@@ -767,7 +767,7 @@ const pollStatus = async ctx => {
 const getJobStatus = async (ctx, type) => {
   const { destType } = ctx.request.body;
   const destFileUploadHandler = getJobStatusHandler(
-    "v0",
+    "v1",
     destType.toLowerCase()
   );
 
@@ -800,7 +800,7 @@ const handleDeletionOfUsers = async ctx => {
     body.map(async b => {
       const { destType } = b;
       const destUserDeletionHandler = getDeletionUserHandler(
-        "v0",
+        "v1",
         destType.toLowerCase()
       );
       if (
@@ -854,7 +854,7 @@ router.post("/getWarningJobs", async ctx => {
   await getJobStatus(ctx, "warn");
 });
 // eg. v0/validate. will validate events as per respective tracking plans
-router.post(`/v0/validate`, async ctx => {
+router.post(`/v1/validate`, async ctx => {
   await handleValidation(ctx);
 });
 
