@@ -1,0 +1,31 @@
+FROM node:14.18.0-alpine3.14
+
+ENV LC_ALL=C
+ARG deploy_env=staging
+
+# Create app directory
+WORKDIR /app
+
+# Create required directories for nginx and beaver
+RUN mkdir -p shared/pids public/system shared/sockets nginx/cache nginx/logs 
+RUN touch /etc/logrotate.d/app 
+
+RUN mkdir -p /app/node_modules
+ARG version
+ENV transformer_build_version=$version
+COPY package*.json ./
+
+# Install dependencies and create a build
+RUN apk --no-cache update && \
+    apk --no-cache add tini python2 make g++ git make curl jq && \
+    rm -rf /var/cache/apk/* && \
+    echo "DEPLOY_ENV=${deploy_env}" > /app/.env && \
+    npm install && \
+    apk del  --purge git g++ make
+
+COPY . ./
+
+ENV NODE_ENV=production
+RUN chmod ug+x /app/startup.sh && chown root:root /app/startup.sh
+
+ENTRYPOINT ["/sbin/tini", "--", "/app/startup.sh"]
